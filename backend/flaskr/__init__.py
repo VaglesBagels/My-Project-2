@@ -117,6 +117,25 @@ def create_app(test_config=None):
     the form will clear and the question will appear at the end of the last page
     of the questions list in the "List" tab.
     """
+    @app.route('/questions', methods=['POST'])
+    def create_question():
+        body = request.get_json()
+
+        new_question = body.get('question', None)
+        new_answer = body.get('answer', None)
+        new_category = body.get('category', None)
+        new_difficulty = body.get('difficulty', None)
+
+        try:
+            question = Question(question=new_question, answer=new_answer, category=new_category, difficulty=new_difficulty)
+            question.insert()
+
+            return jsonify({
+                'success': True,
+                'created': question.id,
+            })
+        except:
+            abort(422)
 
     """
     @TODO:
@@ -128,6 +147,22 @@ def create_app(test_config=None):
     only question that include that string within their question.
     Try using the word "title" to start.
     """
+    @app.route('/questions/search', methods=['POST'])
+    def search_questions():
+        body = request.get_json()
+        search_term = body.get('searchTerm', None)
+
+        if search_term:
+            questions = Question.query.filter(Question.question.ilike(f'%{search_term}%')).all()
+            formatted_questions = [question.format() for question in questions]
+
+            return jsonify({
+                'success': True,
+                'questions': formatted_questions,
+                'total_questions': len(formatted_questions)
+            })
+        else:
+            abort(400)
 
     """
     @TODO:
@@ -137,6 +172,22 @@ def create_app(test_config=None):
     categories in the left column will cause only questions of that
     category to be shown.
     """
+    @app.route('/categories/<int:category_id>/questions', methods=['GET'])
+    def get_questions_by_category(category_id):
+        category = Category.query.filter(Category.id == category_id).one_or_none()
+
+        if category is None:
+            abort(404)
+
+        questions = Question.query.filter(Question.category == category_id).all()
+        formatted_questions = [question.format() for question in questions]
+
+        return jsonify({
+            'success': True,
+            'questions': formatted_questions,
+            'total_questions': len(formatted_questions),
+            'current_category': category.type
+        })
 
     """
     @TODO:
@@ -149,6 +200,34 @@ def create_app(test_config=None):
     one question at a time is displayed, the user is allowed to answer
     and shown whether they were correct or not.
     """
+    @app.route('/quizzes', methods=['POST'])
+    def play_quiz():
+        body = request.get_json()
+        previous_questions = body.get('previous_questions', [])
+        quiz_category = body.get('quiz_category', None)
+
+        if quiz_category:
+            if quiz_category['id'] == 0:
+                questions = Question.query.all()
+            else:
+                questions = Question.query.filter(Question.category == quiz_category['id']).all()
+
+            # Filter out previous questions
+            available_questions = [question.format() for question in questions if question.id not in previous_questions]
+
+            if len(available_questions) > 0:
+                next_question = random.choice(available_questions)
+                return jsonify({
+                    'success': True,
+                    'question': next_question
+                })
+            else:
+                return jsonify({
+                    'success': True,
+                    'question': None
+                })
+        else:
+            abort(400)
 
     """
     @TODO:
