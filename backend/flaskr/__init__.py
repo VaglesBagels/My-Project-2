@@ -50,7 +50,6 @@ def create_app(test_config=None):
             'categories': format_cat
         })
 
-
     """
     @TODO:
     Create an endpoint to handle GET requests for questions,
@@ -63,6 +62,29 @@ def create_app(test_config=None):
     ten questions per page and pagination at the bottom of the screen for three pages.
     Clicking on the page numbers should update the questions.
     """
+    @app.route('/questions', methods=['GET'])
+    def get_questions():
+        page = request.args.get('page', 1, type=int)
+        start = (page - 1) * QUESTIONS_PER_PAGE
+        end = start + QUESTIONS_PER_PAGE
+
+        questions = Question.query.all()
+        formatted_questions = [question.format() for question in questions]
+        categories = Category.query.all()
+        formatted_categories = {category.id: category.type for category in categories}
+
+        current_questions = formatted_questions[start:end]
+
+        if len(current_questions) == 0:
+            abort(404)
+
+        return jsonify({
+            'success': True,
+            'questions': current_questions,
+            'total_questions': len(formatted_questions),
+            'categories': formatted_categories
+        })
+
 
     """
     @TODO:
@@ -120,6 +142,28 @@ def create_app(test_config=None):
     Create error handlers for all expected errors
     including 404 and 422.
     """
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "Not found"
+        }), 404
+
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({
+            "success": False,
+            "error": 422,
+            "message": "Unprocessable"
+        }), 422
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify({
+            "success": False,
+            "error": 400,
+            "message": "Bad request"
+        }), 400
 
     return app
-
