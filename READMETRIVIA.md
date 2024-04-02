@@ -62,11 +62,11 @@ The trivia app will be using the React server which is also run on localhost: ht
 Errors
 Errors are returned in json format:
 
-{
+`{
 "success": False,
 "error": 404,
 "message": "Not found"
-}
+}`
 
 Trivia app returns the following error codes: 400, 404 and 422. The following is a list of the message ouput of the errors:
 
