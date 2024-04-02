@@ -97,7 +97,8 @@ Fetches a dictionary of categories found in the PostGres Trivia database
 
 - StatusCode : 200
 - StatusDescription : OK
-  Content :
+
+Content :
 
 ```json
 {
