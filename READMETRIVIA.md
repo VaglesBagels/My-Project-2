@@ -33,7 +33,7 @@ These are the files you'd want to edit in the backend:
 1. `backend/flaskr/__init__.py`
 2. `backend/test_flaskr.py`
 
-View the Backend README for TODOS tasks and in dept steps on creating and running the application as well as testing the endpoints.
+View the Backend README for TODOS tasks and in depth steps on creating and running the application as well as testing the endpoints.
 
 Tests
 Create a test database using PostGres called trivia_test and follow backend README to populate. Ensure to also create a trivia database for the application.
@@ -41,37 +41,39 @@ Create a test database using PostGres called trivia_test and follow backend READ
 Run the test_flaskr.py file in the terminal to get feedback of a successful or unsuccessful endpoint and unittest creation.
 
 Frontend
-The frontend directory contains a complete React frontend to consume the data from the Flask server. If you have prior experience building a frontend application, you should feel free to edit the endpoints as you see fit for the backend you design. If you do not have prior experience building a frontend application, you should read through the frontend code before starting and make notes regarding:
+The frontend directory contains a React framework from node.js to communicate and display the backend data. It has all information and files required to use and connect to the newly created backend.
 
-Frontend expectations
-What are the end points and HTTP methods the frontend is expecting to consume?
-How are the requests from the frontend formatted? Are they expecting certain parameters or payloads?
-Pay special attention to what data the frontend is expecting from each API response to help guide how you format your API. The places where you may change the frontend behavior, and where you should be looking for the above information, are marked with TODO. These are the files you'd want to edit in the frontend:
+These are the files to look at to ensure endpoints are connected to the backend and to add any other optional functionality:
 
-frontend/src/components/QuestionView.js
-frontend/src/components/FormView.js
-frontend/src/components/QuizView.js
-View the Frontend README for more detailed instructions setting up the frontend server.
+1. `frontend/src/components/QuestionView.js`
+2. `frontend/src/components/FormView.js`
+3. `frontend/src/components/QuizView.js`
+
+View the Frontend README for TODO tasks and in depth steps to setup and run the react application
 
 API reference
 Base URL
-Currently the trivia app runs on localhost: Open http://localhost:3000 to access Trivia API.
+You need to ensure that both the backend flask server and the react server are running else the application will not run.
+
+The flask server runs on localhost: http://localhost:5000
+
+The trivia app will be using the React server which is also run on localhost: http://localhost:3000
 
 Errors
 Errors are returned in json format:
 
 {
 "success": False,
-"error": 422,
-"message": "request unprocessable"
+"error": 404,
+"message": "Not found"
 }
-Trivia app returns the following error codes: 400, 404, 405, 422, 500 and with these corresponding messages:
 
-400 - 'bad request'
-404 - 'resource not found'
-405 - 'method not allowed'
-422 - 'request unprocessable'
-500 - 'internal server error'
+Trivia app returns the following error codes: 400, 404 and 422. The following is a list of the message ouput of the errors:
+
+1. 400 'Bad Request'
+2. 404 'Not Found'
+3. 422 'Unprocessable'
+
 Resources and Endpoints
 GET /categories curl -X GET http://127.0.0.1:5000/categories
 
