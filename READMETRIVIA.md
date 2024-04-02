@@ -1,4 +1,4 @@
-Trivia API
+# Trivia API
 Documentation and API Reference
 
 Trivia App Introduction
