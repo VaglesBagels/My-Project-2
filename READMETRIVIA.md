@@ -36,7 +36,7 @@ These are the files you'd want to edit in the backend:
 View the Backend README for TODOS tasks and in dept steps on creating and running the application as well as testing the endpoints.
 
 Tests
-Deploy a postgres database test data to use to ensure your endpoints are indeed working.
+Create a test database using PostGres called trivia_test and follow backend README to populate. Ensure to also create a trivia database for the application.
 
 Run the test_flaskr.py file in the terminal to get feedback of a successful or unsuccessful endpoint and unittest creation.
 
