@@ -42,7 +42,6 @@ def create_app(test_config=None):
     """
     @app.route('/categories')
     def get_categories():
-        #get all the categories
         data = Category.query.all()
         categories = {}
         for category in data:
