@@ -1,19 +1,19 @@
 # Trivia API
 Documentation and API Reference
 
-Trivia App Introduction
+## Trivia App Introduction
 The Trivia app used by Udacity is a team building application used as an icebreaker and create a positive environment for the teaching team and students.
 
-Author
+## Author
 Michael Lourens
 
-Acknowledgements
+## Acknowledgements
 I acknowledge the contribution of the Udacity team that create the Full Stack Nanodegree and its content. The tools and knowledge provided will stay with many students.
 
-Basic Functionality - Trivia App
+## Basic Functionality - Trivia App
 The app utilises CRUD opertations, python as a backend and react as a frontend.
 
-Functionality of the app:
+## Functionality of the app:
 Displays questions - both all questions and by category. Questions should show the question, category and difficulty rating by default and can show/hide the answer.
 Delete questions.
 Add questions and require that they include question and answer text.
@@ -22,10 +22,10 @@ Play the quiz game, randomizing either all questions or within a specific catego
 Getting Started and Local development
 Fork the project repository and clone your forked repository to your machine. Work on the project locally and make sure to push all your changes to the remote repository.
 
-Tech Stack
+## Tech Stack
 The tech stack has been outlined in the README in both frontend and backend folders.
 
-Backend
+## Backend
 The backend directory contains all information and data required to set up and use FLASK for this app.
 
 These are the files you'd want to edit in the backend:
@@ -35,12 +35,12 @@ These are the files you'd want to edit in the backend:
 
 View the Backend README for TODOS tasks and in depth steps on creating and running the application as well as testing the endpoints.
 
-Tests
+### Tests
 Create a test database using PostGres called trivia_test and follow backend README to populate. Ensure to also create a trivia database for the application.
 
 Run the test_flaskr.py file in the terminal to get feedback of a successful or unsuccessful endpoint and unittest creation.
 
-Frontend
+## Frontend
 The frontend directory contains a React framework from node.js to communicate and display the backend data. It has all information and files required to use and connect to the newly created backend.
 
 These are the files to look at to ensure endpoints are connected to the backend and to add any other optional functionality:
@@ -51,15 +51,15 @@ These are the files to look at to ensure endpoints are connected to the backend 
 
 View the Frontend README for TODO tasks and in depth steps to setup and run the react application
 
-API reference
-Base URL
+# API reference
+## Base URL
 You need to ensure that both the backend flask server and the react server are running else the application will not run.
 
 The flask server runs on localhost: http://localhost:5000
 
 The trivia app will be using the React server which is also run on localhost: http://localhost:3000
 
-Errors
+## Errors
 Errors are returned in json format:
 
 `{
@@ -74,11 +74,11 @@ Trivia app returns the following error codes: 400, 404 and 422. The following is
 2. 404 'Not Found'
 3. 422 'Unprocessable'
 
-Resources and Endpoints
+## Resources and Endpoints
 
 GET /categories use curl http://127.0.0.1:5000/categories
 
-General
+### General
 Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 Request Arguments: None
 Response
