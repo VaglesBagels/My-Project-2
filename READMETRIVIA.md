@@ -78,24 +78,17 @@ Trivia app returns the following error codes: 400, 404 and 422. The following is
 
 ## Resources and Endpoints
 
+### Get Categories
 GET /categories use curl http://127.0.0.1:5000/categories
 
-### General
-Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-Request Arguments: None
-Response
-status: 200
-Returns: An object with a single key, categories, that contains an object of id: category_string key:value pairs.
-{
-"categories": {
-"1": "Science",
-"2": "Art",
-"3": "Geography",
-"4": "History",
-"5": "Entertainment",
-"6": "Sports"
-}
-}
+Fetches a dictionary of categories found in the PostGres Trivia database
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"categories":{"1":"Science","2":"Art","3":"Geography","4":"History","5":"Entertainment","6":"Sports"},"success":true}
+
+
+
 GET /questions curl -X GET http://127.0.0.1:5000/questions?page=1
 
 General:
