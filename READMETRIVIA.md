@@ -99,8 +99,21 @@ Fetches a dictionary of categories found in the PostGres Trivia database
 
 - StatusCode : 200
 - StatusDescription : OK
-- Content :
-  {"categories":{"1":"Science","2":"Art","3":"Geography","4":"History","5":"Entertainment","6":"Sports"},"success":true}
+  Content :
+
+```json
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "success": true
+}
+```
 
 GET /questions curl -X GET http://127.0.0.1:5000/questions?page=1
 
