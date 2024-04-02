@@ -75,7 +75,8 @@ Trivia app returns the following error codes: 400, 404 and 422. The following is
 3. 422 'Unprocessable'
 
 Resources and Endpoints
-GET /categories curl -X GET http://127.0.0.1:5000/categories
+
+GET /categories use curl http://127.0.0.1:5000/categories
 
 General
 Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
