@@ -91,8 +91,6 @@ Trivia app returns the following error codes: 400, 404 and 422. The following is
 
 ## Resources and Endpoints
 
-### Get Categories
-
 GET /categories use curl http://127.0.0.1:5000/categories
 
 Fetches a dictionary of categories found in the PostGres Trivia database
