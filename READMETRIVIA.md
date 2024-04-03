@@ -32,6 +32,16 @@ Fork the project repository and clone your forked repository to your machine. Wo
 
 The tech stack has been outlined in the README in both frontend and backend folders.
 
+### Note for Windows
+
+When opening a terminal use:
+`$env:FLASK_APP ="flaskr" `
+`$env:FLASK_ENV ="development"`
+
+instead of `export` and `set` due to unsupported syntax or unreliable.
+
+You may also run into an issue with using `flask run` if that is the case, use: `python -m flask run` instead.
+
 ## Backend
 
 The backend directory contains all information and data required to set up and use FLASK for this app.
