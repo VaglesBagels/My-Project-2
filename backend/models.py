@@ -14,8 +14,6 @@ database_name = os.getenv("DB_NAME")
 
 database_path = f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}"
 
-# $env:FLASK_APP ="flaskr"; $env:FLASK_ENV ="development"
-
 db = SQLAlchemy()
 
 """
