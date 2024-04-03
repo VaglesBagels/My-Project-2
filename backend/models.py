@@ -4,18 +4,15 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 from dotenv import load_dotenv
 
-# load_dotenv()
+load_dotenv()
 
-# database_user = os.getenv("DB_USER")
-# database_password = os.getenv("DB_PASSWORD")
-# database_host = os.getenv("DB_HOST")
-# database_port = os.getenv("DB_PORT")
-# database_name = os.getenv("DB_NAME")
+database_user = os.getenv("DB_USER")
+database_password = os.getenv("DB_PASSWORD")
+database_host = os.getenv("DB_HOST")
+database_port = os.getenv("DB_PORT")
+database_name = os.getenv("DB_NAME")
 
-# database_path = f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}"
-
-database_name = 'trivia'
-database_path = 'postgresql://postgres:123@{}/{}'.format('localhost:5432', database_name)
+database_path = f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}"
 
 # $env:FLASK_APP ="flaskr"; $env:FLASK_ENV ="development"
 
