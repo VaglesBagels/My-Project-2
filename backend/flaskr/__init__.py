@@ -103,7 +103,6 @@ def create_app(test_config=None):
         '''
         Endpoint for: DELETE a question
         '''
-        # select question by Question.id to be passed into the delete() function
         question = Question.query.filter(Question.id == qid).one_or_none()
         
         if question is None:
