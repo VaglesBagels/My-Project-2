@@ -91,7 +91,7 @@ Trivia app returns the following error codes: 400, 404 and 422. The following is
 
 ## Resources and Endpoints
 
-GET '/categories' USE: curl http://127.0.0.1:5000/categories
+`GET '/categories'` USE: `curl http://127.0.0.1:5000/categories`
 
 Fetches a dictionary of categories found in the PostGres Trivia database
 
@@ -115,7 +115,7 @@ Content :
 }
 ```
 
-GET '/questions?page=${integer}' USE: curl -X GET http://127.0.0.1:5000/questions?page={integer}
+`GET '/questions?page=${integer}'` USE: `curl -X GET http://127.0.0.1:5000/questions?page={integer}`
 
 Fetches a page with a set of questions, shows total number of questions and all categories and which category each question is in.
 
@@ -212,7 +212,7 @@ Content :
 }
 ```
 
-GET '/categories/${id}/questions' USE: curl -X GET http://127.0.0.1:5000/categories/{id}/questions
+`GET '/categories/${id}/questions'` USE: `curl -X GET http://127.0.0.1:5000/categories/{id}/questions`
 
 - Fetches questions for a cateogry specified by id request argument
 - Request Arguments: `id` - integer
@@ -251,13 +251,13 @@ Content :
 }
 ```
 
-DELETE '/questions/${id}' USE: curl -X DELETE http://127.0.0.1:5000/questions/{id}
+`DELETE '/questions/${id}'` USE: `curl -X DELETE http://127.0.0.1:5000/questions/{id}`
 
 - Deletes a specified question using the id of the question
 - Request Arguments: `id` - integer
 - Returns: Does not need to return anything besides the appropriate HTTP status code. Optionally can return the id of the question. If you are able to modify the frontend, you can have it remove the question using the id instead of refetching the questions.
 
-POST '/quizzes' USE: curl -X POST http://127.0.0.1:5000/quizzes -H "Content-Type: application/json" -d '{"quiz_category": {"id":"{integer}"}, "previous_questions": []}'
+`POST '/quizzes'` USE: `curl -X POST http://127.0.0.1:5000/quizzes -H "Content-Type: application/json" -d '{"quiz_category": {"id":"{integer}"}, "previous_questions": []}'`
 
 - Sends a post request in order to get the next question
 - Request Body:
@@ -286,7 +286,7 @@ Content:
 }
 ```
 
-POST '/questions/search' USE: curl -X POST http://127.0.0.1:5000/questions/search -H "Content-Type: application/json" -d '{"searchTerm": "{searchTerm}"}'
+`POST '/questions/search'` USE: `curl -X POST http://127.0.0.1:5000/questions/search -H "Content-Type: application/json" -d '{"searchTerm": "{searchTerm}"}'`
 
 - Sends a post request in order to search for a specific question by search term
 - Request Body:
