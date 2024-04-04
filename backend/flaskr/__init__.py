@@ -258,39 +258,29 @@ def create_app(test_config=None):
     def play_quiz():
         try:
             body = request.get_json()
-            previous_questions = body.get('previous_questions', None)
-            quiz_category = body.get('quiz_category', None)
+            
+            previous_questions = body.get('previous_questions')
+            quiz_category = body.get('quiz_category')
 
-            if quiz_category:
-                if quiz_category['id'] == 0:
-                    quiz_questions = Question.query.order_by(Question.id).all()
-                else:
-                    quiz_questions = Question.query.filter(
-                        Question.category == quiz_category['id']
-                        ).all()
+            category_id = quiz_category['id']
 
-            quiz_id = [question.id for question in quiz_questions]
-            next_question = random.choice([
-                next_id for next_id in quiz_id
-                if next_id not in previous_questions
-                ])
+            if category_id == 0:
+                quiz_questions = Question.query.filter(Question.id.notin_(previous_questions)).all()
+            else:            
+                quiz_questions = Question.query.filter(Question.category == category_id, Question.id.notin_(previous_questions)).all()
 
-            question = Question.query.filter(
-                Question.id == next_question
-                ).one_or_none()
+            if (quiz_questions):
+                question = random.choice(quiz_questions).format()
+            else:
+                question = None
 
-            previous_questions.append(question.id)
-
-            return jsonify(
-                {
-                    'success': True,
-                    'question': question.format()
-                }
-            )
-
-        except Exception as e:
-            # print(e)
-            abort(400)
+            return jsonify({
+                'success': True,
+                'question': question,
+                })
+            
+        except:
+            abort(400) 
 
     """
     @TODO:

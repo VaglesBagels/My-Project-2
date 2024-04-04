@@ -198,7 +198,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_play_quiz_error(self):
         quiz_data = {
             'previous_questions': [],
-            'quiz_category': {'id': 999}
+            'quiz_category': {}
         }
 
         res = self.client().post('/quizzes', json=quiz_data)
