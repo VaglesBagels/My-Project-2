@@ -3,6 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
+from sqlalchemy import not_
 
 from models import setup_db, Question, Category
 
@@ -273,23 +274,28 @@ def create_app(test_config=None):
                 else:
                     questions = Question.query.filter(
                         Question.category == quiz_category['id']
-                        ).all()
+                        )
 
-                available_questions = [question.format()
-                                       for question in questions
-                                       if question.id not in prev_question]
+            available_questions = questions.filter(
+                Question.id.not_in(prev_question)
+                ).all()
 
-                if len(available_questions) > 0:
-                    next_question = random.choice(available_questions)
-                    return jsonify({
-                        'success': True,
-                        'question': next_question
-                    })
-                else:
-                    return jsonify({
-                        'success': True,
-                        'question': None
-                    })
+            formatted_questions = [
+                question.format()
+                for question in available_questions]
+
+            if len(formatted_questions) > 0:
+                next_question = random.choice(formatted_questions)
+                return jsonify({
+                    'success': True,
+                    'question': next_question
+                })
+            else:
+                return jsonify({
+                    'success': True,
+                    'question': None
+                })
+
         except Exception as e:
             # print(e)
             abort(400)
