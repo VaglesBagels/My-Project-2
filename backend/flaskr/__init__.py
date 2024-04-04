@@ -258,16 +258,21 @@ def create_app(test_config=None):
     def play_quiz():
         try:
             body = request.get_json()
-            
+
             previous_questions = body.get('previous_questions')
             quiz_category = body.get('quiz_category')
 
             category_id = quiz_category['id']
 
             if category_id == 0:
-                quiz_questions = Question.query.filter(Question.id.notin_(previous_questions)).all()
-            else:            
-                quiz_questions = Question.query.filter(Question.category == category_id, Question.id.notin_(previous_questions)).all()
+                quiz_questions = Question.query.filter(
+                    Question.id.notin_(previous_questions)
+                    ).all()
+            else:
+                quiz_questions = Question.query.filter(
+                    Question.category == category_id,
+                    Question.id.notin_(previous_questions)
+                    ).all()
 
             if (quiz_questions):
                 question = random.choice(quiz_questions).format()
@@ -278,9 +283,10 @@ def create_app(test_config=None):
                 'success': True,
                 'question': question,
                 })
-            
-        except:
-            abort(400) 
+
+        except Exception as e:
+            # print(e)
+            abort(400)
 
     """
     @TODO:
