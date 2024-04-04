@@ -225,31 +225,38 @@ def create_app(test_config=None):
     """
     @app.route('/quizzes', methods=['POST'])
     def play_quiz():
-        body = request.get_json()
-        previous_questions = body.get('previous_questions', [])
-        quiz_category = body.get('quiz_category', None)
+        try:
+            body = request.get_json()
 
-        if quiz_category:
-            if quiz_category['id'] == 0:
-                questions = Question.query.all()
-            else:
-                questions = Question.query.filter(Question.category == quiz_category['id']).all()
+            if len(body) != 2:
+                raise ValueError
+            
+            previous_questions = body.get('previous_questions')
+            quiz_category = body.get('quiz_category')
 
-            # Filter out previous questions
-            available_questions = [question.format() for question in questions if question.id not in previous_questions]
+            if quiz_category is None or quiz_category['id'] is None:
+                raise ValueError
 
-            if len(available_questions) > 0:
-                next_question = random.choice(available_questions)
-                return jsonify({
-                    'success': True,
-                    'question': next_question
-                })
-            else:
-                return jsonify({
-                    'success': True,
-                    'question': None
-                })
-        else:
+            if quiz_category:
+                if quiz_category['id'] == 0:
+                    questions = Question.query.all()
+                else:
+                    questions = Question.query.filter(Question.category == quiz_category['id']).all()
+
+                available_questions = [question.format() for question in questions if question.id not in previous_questions]
+
+                if len(available_questions) > 0:
+                    next_question = random.choice(available_questions)
+                    return jsonify({
+                        'success': True,
+                        'question': next_question
+                    })
+                else:
+                    return jsonify({
+                        'success': True,
+                        'question': None
+                    })
+        except:
             abort(400)
 
     """

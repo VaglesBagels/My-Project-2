@@ -150,6 +150,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertTrue(data['message'], 'Not Found')
 
+    # Success and error behaviour for POST Play Quiz endpoint
     def test_play_quiz(self):
         quiz_data = {
             'previous_questions': [],
@@ -162,6 +163,19 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['question'])
+
+    def test_play_quiz_error(self):
+        quiz_data = {
+            'previous_questions': [],
+            'quiz_category': {'id': None, 'type': None}
+        }
+
+        res = self.client().post('/quizzes', json=quiz_data)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertTrue(data['message'], 'Bad Request')
 
 if __name__ == "__main__":
     unittest.main()
