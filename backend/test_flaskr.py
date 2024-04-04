@@ -59,7 +59,7 @@ class TriviaTestCase(unittest.TestCase):
                 data = json.loads(res.data)
                 
                 self.assertEqual(res.status_code, 500)
-                self.assertFalse(data['success'])
+                self.assertEqual(data['success'], False)
                 self.assertEqual(data['message'], 'Internal Server Error')
 
     # Success and error behaviou of GET Questions endpoint
@@ -77,6 +77,37 @@ class TriviaTestCase(unittest.TestCase):
         
         self.assertEqual(data['error'], 404)
         self.assertEqual(data['success'], False)
+
+    # Success and error behavious of DELETE Questions endpoint
+    def test_delete_questions(self):
+        dummy_question = {
+            'question': 'Do you want to delete',
+            'answer': 'True',
+            'category': 1,
+            'difficulty': 1
+        }
+
+        res = self.client().post('/questions', json=dummy_question)
+        data = json.loads(res.data)
+
+        qid = data['created']
+
+        res = self.client().delete(f'/questions/{qid}')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted'], qid)
+    
+    def test_delete_questions_error(self):
+        qid = 999
+
+        res = self.client().delete(f'/questions/{qid}')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'Unprocessable')
 
     # Success and error behaviour of POST Question endpoint
     def test_create_question(self):

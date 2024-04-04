@@ -104,22 +104,22 @@ def create_app(test_config=None):
     """
     @app.route('/questions/<int:qid>', methods=['DELETE'])
     def delete_question(qid):
-        '''
-        Endpoint for: DELETE a question
-        '''
-        question = Question.query.filter(Question.id == qid).one_or_none()
-        
-        if question is None:
-            abort(422)
+        try:
+            question = Question.query.filter(Question.id == qid).one_or_none()
             
-        question.delete()
+            if question is None:
+                raise ValueError
+                
+            question.delete()
 
-        return jsonify(
-            {
-                'success': True,
-                'deleted': qid
-            }
-        )
+            return jsonify(
+                {
+                    'success': True,
+                    'deleted': qid
+                }
+            )
+        except:
+            abort(422)
 
     """
     @TODO:
