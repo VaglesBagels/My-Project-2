@@ -258,43 +258,35 @@ def create_app(test_config=None):
     def play_quiz():
         try:
             body = request.get_json()
-
-            if len(body) != 2:
-                raise ValueError
-
-            prev_question = body.get('previous_questions')
-            quiz_category = body.get('quiz_category')
-
-            if quiz_category is None or quiz_category['id'] is None:
-                raise ValueError
+            previous_questions = body.get('previous_questions', None)
+            quiz_category = body.get('quiz_category', None)
 
             if quiz_category:
                 if quiz_category['id'] == 0:
-                    questions = Question.query.all()
+                    quiz_questions = Question.query.order_by(Question.id).all()
                 else:
-                    questions = Question.query.filter(
+                    quiz_questions = Question.query.filter(
                         Question.category == quiz_category['id']
-                        )
+                        ).all()
 
-            available_questions = questions.filter(
-                Question.id.not_in(prev_question)
-                ).all()
+            quiz_id = [question.id for question in quiz_questions]
+            next_question = random.choice([
+                next_id for next_id in quiz_id
+                if next_id not in previous_questions
+                ])
 
-            formatted_questions = [
-                question.format()
-                for question in available_questions]
+            question = Question.query.filter(
+                Question.id == next_question
+                ).one_or_none()
 
-            if len(formatted_questions) > 0:
-                next_question = random.choice(formatted_questions)
-                return jsonify({
+            previous_questions.append(question.id)
+
+            return jsonify(
+                {
                     'success': True,
-                    'question': next_question
-                })
-            else:
-                return jsonify({
-                    'success': True,
-                    'question': None
-                })
+                    'question': question.format()
+                }
+            )
 
         except Exception as e:
             # print(e)

@@ -185,7 +185,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_play_quiz(self):
         quiz_data = {
             'previous_questions': [],
-            'quiz_category': {'id': 1, 'type': 'Science'}
+            'quiz_category': {'id': 1}
         }
 
         res = self.client().post('/quizzes', json=quiz_data)
@@ -198,7 +198,7 @@ class TriviaTestCase(unittest.TestCase):
     def test_play_quiz_error(self):
         quiz_data = {
             'previous_questions': [],
-            'quiz_category': {'id': None, 'type': None}
+            'quiz_category': {'id': 999}
         }
 
         res = self.client().post('/quizzes', json=quiz_data)
