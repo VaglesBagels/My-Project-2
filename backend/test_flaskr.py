@@ -94,6 +94,22 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['created'])
 
+    def test_create_question_error(self):
+        new_question = {
+            'question' : 'My Question', 
+            'category' : 2,
+            'difficulty' : 3
+        }
+
+        res = self.client().post('/questions', json=new_question)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertTrue(data['message'], 'Unprocessable')
+
+
+
     def test_search_questions(self):
         search_term = 'test'
 
