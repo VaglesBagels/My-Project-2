@@ -1,7 +1,8 @@
 import os
-import unittest
+import unittest 
 import json
 from flask_sqlalchemy import SQLAlchemy
+from unittest.mock import patch, MagicMock
 
 from flaskr import create_app
 from models import setup_db, Question, Category
@@ -39,7 +40,7 @@ class TriviaTestCase(unittest.TestCase):
     TODO
     Write at least one test for each test for successful operation and for expected errors.
     """
-    # Success and failure of GET Categoris Endpoint
+    # Success and error behaviour of GET Categories Endpoint
     def test_get_categories(self):
         res = self.client().get('/categories')
         data = json.loads(res.data)
@@ -47,6 +48,21 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['categories'])
+    
+    def test_get_categories_error(self):
+        with self.app.app_context():
+            mock_query = MagicMock()
+            mock_query.all.return_value = []
+
+            with patch('flaskr.Category.query', return_value=mock_query):
+                res = self.client().get('/categories')
+                data = json.loads(res.data)
+                
+                self.assertEqual(res.status_code, 500)
+                self.assertFalse(data['success'])
+                self.assertEqual(data['message'], 'Internal Server Error')
+
+
 
     def test_paginate_questions(self):
         res = self.client().get('/questions')

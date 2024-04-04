@@ -56,7 +56,7 @@ def create_app(test_config=None):
                 'categories': categories
             })
         except Exception as e:
-            print(e)
+            # print(e)
             abort(500)
 
     """
