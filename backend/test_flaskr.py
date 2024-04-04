@@ -108,18 +108,28 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertTrue(data['message'], 'Unprocessable')
 
-
-
+    # Success and error behaviour of POST search questions endpoint
     def test_search_questions(self):
         search_term = 'test'
 
-        res = self.client().post('/questions/search', json={'searchTerm': search_term})
+        res = self.client().post('/questions/search', json={'searchTerm' : search_term})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['questions'])
 
+    def test_search_questions_error(self):
+        search_term = ' '
+
+        res = self.client().post('/questions/search', json=search_term)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertTrue(data['message'], 'Bad Request')
+
+    
     def test_get_questions_by_category(self):
         category_id = 1
 

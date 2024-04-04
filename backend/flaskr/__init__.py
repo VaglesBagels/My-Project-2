@@ -167,10 +167,11 @@ def create_app(test_config=None):
     """
     @app.route('/questions/search', methods=['POST'])
     def search_questions():
-        body = request.get_json()
-        search_term = body.get('searchTerm', None)
+        try:
+            body = request.get_json()
 
-        if search_term:
+            search_term = body.get('searchTerm')
+
             questions = Question.query.filter(Question.question.ilike(f'%{search_term}%')).all()
             formatted_questions = [question.format() for question in questions]
 
@@ -179,7 +180,8 @@ def create_app(test_config=None):
                 'questions': formatted_questions,
                 'total_questions': len(formatted_questions)
             })
-        else:
+        except Exception as e:
+            # print(e)
             abort(400)
 
     """
