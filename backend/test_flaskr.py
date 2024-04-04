@@ -129,7 +129,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertTrue(data['message'], 'Bad Request')
 
-    
+    # Success and error behaviour for GET Questions by Category endpoint
     def test_get_questions_by_category(self):
         category_id = 1
 
@@ -139,6 +139,16 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['questions'])
+
+    def test_get_questions_by_category_error(self):
+        category_id = None 
+
+        res = self.client().get(f'/categories/{category_id}/questions')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+        self.assertTrue(data['message'], 'Not Found')
 
     def test_play_quiz(self):
         quiz_data = {

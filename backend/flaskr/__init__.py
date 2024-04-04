@@ -194,20 +194,23 @@ def create_app(test_config=None):
     """
     @app.route('/categories/<int:category_id>/questions', methods=['GET'])
     def get_questions_by_category(category_id):
-        category = Category.query.filter(Category.id == category_id).one_or_none()
+        try:
+            category = Category.query.filter(Category.id == category_id).one_or_none()
 
-        if category is None:
+            if category is None:
+                raise ValueError
+
+            questions = Question.query.filter(Question.category == category_id).all()
+            formatted_questions = [question.format() for question in questions]
+
+            return jsonify({
+                'success': True,
+                'questions': formatted_questions,
+                'total_questions': len(formatted_questions),
+                'current_category': category.type
+            })
+        except:
             abort(404)
-
-        questions = Question.query.filter(Question.category == category_id).all()
-        formatted_questions = [question.format() for question in questions]
-
-        return jsonify({
-            'success': True,
-            'questions': formatted_questions,
-            'total_questions': len(formatted_questions),
-            'current_category': category.type
-        })
 
     """
     @TODO:
