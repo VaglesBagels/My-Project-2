@@ -42,18 +42,22 @@ def create_app(test_config=None):
     """
     @app.route('/categories')
     def get_categories():
-        data = Category.query.all()
-        categories = {}
-        for category in data:
-            categories[category.id] = category.type
+        try:
+            data = Category.query.all()
+            categories = {}
+            for category in data:
+                categories[category.id] = category.type
 
-        if len(data) == 0:
-            abort(404)
+            if len(data) == 0:
+                abort(404)
 
-        return jsonify({
-        'success': True,
-        'categories': categories
-        })
+            return jsonify({
+                'success': True,
+                'categories': categories
+            })
+        except Exception as e:
+            print(e)
+            abort(500)
 
     """
     @TODO:
@@ -267,5 +271,13 @@ def create_app(test_config=None):
             "error": 400,
             "message": "Bad request"
         }), 400
+    
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        return jsonify({
+            "success": False,
+            "error": 500,
+            "message": "Internal Server Error"
+        }), 500
 
     return app
