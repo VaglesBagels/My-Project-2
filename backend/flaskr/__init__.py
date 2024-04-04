@@ -76,28 +76,38 @@ def create_app(test_config=None):
     """
     @app.route('/questions', methods=['GET'])
     def get_questions():
-        page = request.args.get('page', 1, type=int)
-        start = (page - 1) * QUESTIONS_PER_PAGE
-        end = start + QUESTIONS_PER_PAGE
+        try:
+            page = request.args.get('page', 1, type=int)
 
-        questions = Question.query.all()
-        formatted_questions = [question.format() for question in questions]
-        categories = Category.query.all()
-        formatted_categories = {
-                                category.id: category.type
-                                for category in categories}
+            pagination = Question.query.paginate(
+                page=page,
+                per_page=QUESTIONS_PER_PAGE
+                )
 
-        current_questions = formatted_questions[start:end]
+            current_questions = pagination.items
+            total_questions = pagination.total
 
-        if len(current_questions) == 0:
+            if len(current_questions) == 0:
+                raise ValueError
+
+            formatted_questions = [
+                question.format()
+                for question in current_questions]
+
+            categories = Category.query.all()
+            formatted_categories = {
+                                    category.id: category.type
+                                    for category in categories}
+
+            return jsonify({
+                'success': True,
+                'questions': formatted_questions,
+                'total_questions': total_questions,
+                'categories': formatted_categories
+            })
+        except Exception as e:
+            # print(e)
             abort(404)
-
-        return jsonify({
-            'success': True,
-            'questions': current_questions,
-            'total_questions': len(formatted_questions),
-            'categories': formatted_categories
-        })
 
     """
     @TODO:
