@@ -62,9 +62,8 @@ class TriviaTestCase(unittest.TestCase):
                 self.assertFalse(data['success'])
                 self.assertEqual(data['message'], 'Internal Server Error')
 
-
-
-    def test_paginate_questions(self):
+    # Success and error behaviou of GET Questions endpoint
+    def test_get_questions(self):
         res = self.client().get('/questions')
         data = json.loads(res.data)
 
@@ -72,13 +71,14 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['questions'])
 
-    def test_404_invalid_page_numbers(self):
+    def test_get_questions_error(self):
         res = self.client().get('/questions?page=10000')
         data = json.loads(res.data)
         
         self.assertEqual(data['error'], 404)
         self.assertEqual(data['success'], False)
 
+    # Success and error behaviour of POST Question endpoint
     def test_create_question(self):
         new_question = {
             'question': 'Is this a test',
